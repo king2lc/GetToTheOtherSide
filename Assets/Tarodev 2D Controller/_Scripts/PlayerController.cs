@@ -51,10 +51,17 @@ namespace TarodevController {
             Input = new FrameInput {
                 JumpDown = UnityEngine.Input.GetButtonDown("Jump"),
                 JumpUp = UnityEngine.Input.GetButtonUp("Jump"),
-                X = UnityEngine.Input.GetAxisRaw("Horizontal")
+                X = UnityEngine.Input.GetAxisRaw("Horizontal"),
+                Pause = UnityEngine.Input.GetKeyDown(KeyCode.Escape),
             };
             if (Input.JumpDown) {
                 _lastJumpPressed = Time.time;
+            }
+            if (Input.Pause){
+                Time.timeScale = 0;
+            }
+            if (!Input.Pause){
+                Time.timeScale = 1;
             }
         }
 

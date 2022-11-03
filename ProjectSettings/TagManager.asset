@@ -8,6 +8,8 @@ TagManager:
   - ShowOnPause
   - LevelEditManager
   - ItemImage
+  - Danger
+  - EndGameChest
   layers:
   - Default
   - TransparentFX

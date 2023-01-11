@@ -56,7 +56,7 @@ public class StartGame : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("StartScreen");
+        SceneManager.LoadScene("TitleScreen");
     }
 
     private void showPaused()

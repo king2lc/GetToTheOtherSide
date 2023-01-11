@@ -8,6 +8,7 @@ TagManager:
   - ShowOnPause
   - LevelEditManager
   - ItemImage
+  - Savable
   layers:
   - Default
   - TransparentFX

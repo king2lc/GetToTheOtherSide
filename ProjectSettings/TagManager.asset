@@ -8,8 +8,9 @@ TagManager:
   - ShowOnPause
   - LevelEditManager
   - ItemImage
-  - Danger
-  - EndGameChest
+  - Savable
+  - LevelManager
+  - DownloadMenu
   layers:
   - Default
   - TransparentFX

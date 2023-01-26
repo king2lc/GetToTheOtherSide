@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TarodevController {
     /// <summary>
@@ -22,6 +23,7 @@ namespace TarodevController {
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
 
+        public GameObject player;
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
         void Awake() {
@@ -55,6 +57,21 @@ namespace TarodevController {
             CalculateJump(); // Possibly overrides vertical
 
             MoveCharacter(); // Actually perform the axis movement
+            ResetLevel(); //Checks if the player falls and resets accordingly.
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            
+        }
+        private void ResetLevel()
+        {
+            //PUT MUSIC WHEN DIE OR SOMETHING IDK.
+            if (player.transform.position.y <= 275)
+            {
+                var scene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(scene.name);
+            }
         }
 
 

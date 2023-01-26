@@ -9,6 +9,8 @@ TagManager:
   - LevelEditManager
   - ItemImage
   - Savable
+  - LevelManager
+  - DownloadMenu
   layers:
   - Default
   - TransparentFX

@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using LootLocker.Requests;
+using UnityEngine.Networking;
 
 public class LevelManager : MonoBehaviour
 {
     public InputField levelNameInputField;
     public string levelName;
     public GameObject levelUploadUI;
+
+    public GameObject levelDownload;
+    public Transform levelContent;
 
     private string screenShotPath = Directory.GetCurrentDirectory() + "/Assets/Screenshot/Screenshot.png";
     public void LevelCreation()
@@ -75,5 +79,32 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("There was an error uploading screenshot.");
             }
         });
+    }
+
+    public void DownloadData()
+    {
+        LootLockerSDKManager.GetAssetListWithCount(10, (response) =>
+        {
+            for(int i = 0; i < response.assets.Length; i++)
+            {
+                var item = Instantiate(levelDownload, transform.position, Quaternion.identity);
+                item.transform.SetParent(levelContent);
+
+                item.GetComponent<LevelData>().levelID = i;
+                item.GetComponent<LevelData>().levelName = response.assets[i].name;
+
+                var levelData = response.assets[i].files;
+                StartCoroutine(LoadIcon(levelData[0].url.ToString(), item.GetComponent<LevelData>().levelIcon));
+                item.GetComponent<LevelData>().textFileURL = levelData[1].url.ToString();
+            }
+        }, null, true);
+    }
+    IEnumerator LoadIcon(string imageURL, Image image)
+    {
+        var request = UnityWebRequestTexture.GetTexture(imageURL);
+        yield return request.SendWebRequest();
+
+        var imageDownload = DownloadHandlerTexture.GetContent(request);
+        image.sprite = Sprite.Create(imageDownload, new Rect(0f, 0f, imageDownload.width, imageDownload.height), Vector2.zero);
     }
 }

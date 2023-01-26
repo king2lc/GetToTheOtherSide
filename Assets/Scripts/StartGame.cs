@@ -11,52 +11,51 @@ public class StartGame : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 1;
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
+        GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        OnGameStateChanged(GameStateManager.Instance.CurrentGameState);
+    }
+
+    void OnDestroy()
+    {
+        GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    }
+    private void OnGameStateChanged(GameState newGameState)
+    {
+        if (newGameState == GameState.Gameplay)
+            hidePaused();
+        else
+            showPaused();
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if(Time.timeScale == 1)
-            {
-                Time.timeScale = 0;
-                showPaused();
-            } else if(Time.timeScale == 0)
-            {
-                Time.timeScale = 1;
-                hidePaused();
-            }
-        }
+    }
+
+    public void Resume()
+    {
+        GameStateToggle();
     }
 
     public void Reload()
     {
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
+        GameStateToggle();
         //levelName = SceneManager.GetActiveScene().ToString();
         //SceneManager.LoadScene(levelName);
-    }
-
-    public void pauseControl()
-    {
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            showPaused();
-        }
-        else if (Time.timeScale == 0)
-        {
-            Time.timeScale = 1;
-            hidePaused();
-        }
     }
 
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("StartScreen");
+    }   
+
+
+    public void LoadLevel()
+    {
+        SceneManager.LoadScene(levelName);
     }
 
     private void showPaused()
@@ -66,18 +65,22 @@ public class StartGame : MonoBehaviour
             g.SetActive(true);
         }
     }
-
     private void hidePaused()
     {
-        foreach(GameObject g in pauseObjects)
+        foreach (GameObject g in pauseObjects)
         {
             g.SetActive(false);
         }
     }
 
-
-    public void LoadLevel()
+    public void GameStateToggle()
     {
-        SceneManager.LoadScene(levelName);
+        GameState currentGameState = GameStateManager.Instance.CurrentGameState;
+        GameState newGameState = currentGameState == GameState.Gameplay
+            ? GameState.Paused
+            : GameState.Gameplay;
+
+        GameStateManager.Instance.SetState(newGameState);
     }
+
 }

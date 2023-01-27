@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.lootlocker.lootlockersdk": "file:C:/Users/Luke/Downloads/unity-sdk-main/unity-sdk-main",
+    "com.lootlocker.lootlockersdk": "https://github.com/LootLocker/unity-sdk.git",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.15",

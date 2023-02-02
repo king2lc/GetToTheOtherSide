@@ -8,17 +8,17 @@ using UnityEngine.Networking;
 
 public class LevelManager : MonoBehaviour
 {
-    public InputField levelNameInputField;
-    public string levelName;
+    public TMPro.TMP_InputField levelNameInput;
     public GameObject levelUploadUI;
 
     public GameObject levelDownload;
     public Transform levelContent;
 
     private string screenShotPath = Directory.GetCurrentDirectory() + "/Assets/Screenshot/Screenshot.png";
+    private string levelPath = Directory.GetCurrentDirectory() + "/Assets/CreatedLevels/Level-Data.txt";
     public void LevelCreation()
     {
-        levelName = "test";
+        var levelName = levelNameInput.text;
         LootLockerSDKManager.CreatingAnAssetCandidate(levelName, (response ) =>
         {
             if (response.success)
@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
         }    
         ScreenCapture.CaptureScreenshot(screenShotPath);
         GetComponent<LevelSaver>().FindAssets();
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(1f);
         levelUploadUI.SetActive(true);
     }
 
@@ -59,10 +59,9 @@ public class LevelManager : MonoBehaviour
         {
             if (response.success)
             {
-                string levelPath = Directory.GetCurrentDirectory() + "/Assets/CreatedLevels/Level-Data.txt";
                 LootLocker.LootLockerEnums.FilePurpose textFileType = LootLocker.LootLockerEnums.FilePurpose.file;
 
-                LootLockerSDKManager.AddingFilesToAssetCandidates(levelID, screenShotPath, "Level-Data.txt", textFileType, (textResponse) =>
+                LootLockerSDKManager.AddingFilesToAssetCandidates(levelID, levelPath, "LevelData.txt", textFileType, (textResponse) =>
                 {
                     if(textResponse.success)
                     {
@@ -79,6 +78,8 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("There was an error uploading screenshot.");
             }
         });
+        File.Delete(screenShotPath);
+        //File.Delete(levelPath);
     }
 
     public void DownloadData()

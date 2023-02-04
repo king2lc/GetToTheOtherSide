@@ -43,6 +43,5 @@ public class LevelData : MonoBehaviour
         GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelSaver>().LoadLevel();
         yield return new WaitForSeconds(2f);
         GameObject.FindGameObjectWithTag("DownloadMenu").SetActive(false);
-
     }
 }

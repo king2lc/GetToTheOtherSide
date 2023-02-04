@@ -99,6 +99,7 @@ public class LevelManager : MonoBehaviour
                 item.GetComponent<LevelData>().textFileURL = levelData[1].url.ToString();
             }
         }, null, true);
+        
     }
     IEnumerator LoadIcon(string imageURL, Image image)
     {

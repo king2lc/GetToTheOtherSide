@@ -23,7 +23,7 @@ namespace TarodevController {
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
 
-        public GameObject player;
+        //public GameObject player;
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
         void Awake() {
@@ -67,11 +67,11 @@ namespace TarodevController {
         private void ResetLevel()
         {
             //PUT MUSIC WHEN DIE OR SOMETHING IDK.
-            if (player.transform.position.y <= 275)
-            {
-                var scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
-            }
+            //if (player.transform.position.y <= 275)
+            //{
+            //    var scene = SceneManager.GetActiveScene();
+            //    SceneManager.LoadScene(scene.name);
+            //}
         }
 
 

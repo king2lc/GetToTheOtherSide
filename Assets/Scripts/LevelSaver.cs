@@ -6,7 +6,7 @@ using System.Linq;
 
 public class LevelSaver : MonoBehaviour
 {
-    public string savableTag = "Save";
+    public string savableTag = "Savable";
     private GameObject[] assets;
     public GameObject[] possibleAssets;
     [SerializeField] private string[] assetNames;
@@ -88,19 +88,19 @@ public class LevelSaver : MonoBehaviour
                 }
             }
         }
+        //File.Delete(levelPath);
         CreateAssets();
     }
     public void CreateAssets()
     {
-        for (int i = 0;i < assets.Length;i++)
+        for (int i = 0; i < assetNames.Length; i++)
         {
-
-            for(int j = 0;j < possibleAssets.Length; j++)
+            for (int j = 0; j < possibleAssets.Length; j++)
             {
-                if(possibleAssets[j].name == assetNames[j])
-                {
+                //if (possibleAssets[j].name == assetNames[i])
+                //{
                     Instantiate(possibleAssets[j], assetPosistions[i], Quaternion.identity);
-                }
+                //}
             }
         }
     }

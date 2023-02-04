@@ -26,9 +26,22 @@ namespace TarodevController {
         //public GameObject player;
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
-        void Awake() => Invoke(nameof(Activate), 0.5f);
+        void Awake() {
+            Invoke(nameof(Activate), 0.5f);
+            GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
+        }
         void Activate() =>  _active = true;
-        
+
+        private void OnGameStateChanged(GameState newGameState)
+        {
+            enabled = newGameState == GameState.Gameplay;
+        }
+
+        void OnDestroy()
+        {
+            GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+        }
+
         private void Update() {
             if(!_active) return;
             // Calculate velocity

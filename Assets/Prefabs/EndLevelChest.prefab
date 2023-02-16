@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1773641976388943426}
   - component: {fileID: 1773641976388943427}
   - component: {fileID: -7978514517230315064}
+  - component: {fileID: -199822844757460928}
   m_Layer: 0
   m_Name: EndLevelChest
-  m_TagString: EndGameChest
+  m_TagString: Savable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,3 +133,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.28, y: 2.56}
   m_EdgeRadius: 0
+--- !u!114 &-199822844757460928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773641976388943424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62afbbefcda6ab74cb1a115da13c20d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemID: 1

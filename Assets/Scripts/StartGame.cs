@@ -49,11 +49,11 @@ public class StartGame : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        var allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-        foreach (var go in allObjects)
-        {
-            Destroy(go);
-        }
+        //var allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        //foreach (var go in allObjects)
+        //{
+        //    Destroy(go);
+        //}
         SceneManager.LoadScene("TitleScreen");
     }   
 

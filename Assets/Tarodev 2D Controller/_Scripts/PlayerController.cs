@@ -57,14 +57,14 @@ namespace TarodevController {
             CalculateJump(); // Possibly overrides vertical
 
             MoveCharacter(); // Actually perform the axis movement
-            ResetLevel(); //Checks if the player falls and resets accordingly.
+            ResetLevelFalling(); //Checks if the player falls and resets accordingly.
         }
 
         void OnTriggerEnter(Collider other)
         {
             
         }
-        private void ResetLevel()
+        private void ResetLevelFalling()
         {
             //PUT MUSIC WHEN DIE OR SOMETHING IDK.
             //if (player.transform.position.y <= 275)
@@ -72,6 +72,12 @@ namespace TarodevController {
             //    var scene = SceneManager.GetActiveScene();
             //    SceneManager.LoadScene(scene.name);
             //}
+        }
+
+        private void ResetLevelGrassCollision()
+        {
+            var scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
         }
 
 
@@ -123,16 +129,51 @@ namespace TarodevController {
                 _coyoteUsable = true; // Only trigger when first touching
                 LandingThisFrame = true;
             }
-
+            
             _colDown = groundedCheck;
+            
+            if(_colDown == true && LandingThisFrame == false)
+            {
+                RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, 1f);
+                if (raycastHit.collider != null)
+                {
+                    if (raycastHit.collider.tag == "Danger"){
+                        ResetLevelGrassCollision();
+                    }
+                }
+            }
+            
 
             // The rest
             _colUp = RunDetection(_raysUp);
             _colLeft = RunDetection(_raysLeft);
             _colRight = RunDetection(_raysRight);
 
+            if (_colLeft)
+            {
+                RunEndGameHitDetection(Vector2.left);
+            } else if (_colRight)
+            {
+                RunEndGameHitDetection(Vector2.right);
+            } else if (_colDown)
+            {
+                RunEndGameHitDetection(Vector2.down);
+            }
+
             bool RunDetection(RayRange range) {
                 return EvaluateRayPositions(range).Any(point => Physics2D.Raycast(point, range.Dir, _detectionRayLength, _groundLayer));
+            }
+
+            void RunEndGameHitDetection(Vector2 vector)
+            {
+                RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, vector, 1f);
+                if (raycastHit.collider != null)
+                {
+                    if (raycastHit.collider.tag == "EndGameChest")
+                    {
+                        SceneManager.LoadScene("EndLevel");
+                    }
+                }
             }
         }
 

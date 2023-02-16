@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class EndLevelScript : MonoBehaviour
 {
-    public string EndLevelNavigation;
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void LoadMainMenu()
     {
-       if (collision.gameObject.tag == "Player")
-        {
-            Console.WriteLine("touching");
-        }
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    public void LoadPreviousLevel()
+    {
+        Debug.Log("Load Previous Level is currently under construction!");
     }
 }
  

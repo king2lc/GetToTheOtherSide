@@ -11,11 +11,13 @@ TagManager:
   - Savable
   - LevelManager
   - DownloadMenu
+  - Danger
+  - EndGameChest
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - GrassLayer
   - Water
   - UI
   - 

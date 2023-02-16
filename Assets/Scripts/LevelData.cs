@@ -10,10 +10,10 @@ using System.IO;
 public class LevelData : MonoBehaviour
 {
     public int levelID = 0;
-    public string levelName = "";
+    public string levelName;
     public Text levelNameText;
     public Image levelIcon;
-    public string textFileURL = "";
+    public string textFileURL;
     public GameObject level;
 
     private void Start()
@@ -35,7 +35,7 @@ public class LevelData : MonoBehaviour
         var webRequest = UnityWebRequest.Get(textFileURL);
         yield return webRequest.SendWebRequest();
 
-        var path = "/Assets/CreatedLevels/Level-Data.txt";
+        var path = Directory.GetCurrentDirectory() + "/Assets/CreatedLevels/Level-Data.txt";
         File.WriteAllText(path, webRequest.downloadHandler.text);
 
         AssetDatabase.Refresh();
@@ -43,6 +43,5 @@ public class LevelData : MonoBehaviour
         GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelSaver>().LoadLevel();
         yield return new WaitForSeconds(2f);
         GameObject.FindGameObjectWithTag("DownloadMenu").SetActive(false);
-
     }
 }

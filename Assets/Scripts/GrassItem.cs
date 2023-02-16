@@ -10,7 +10,10 @@ public class GrassItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelEditManager = GameObject.FindGameObjectWithTag("LevelEditManager").GetComponent<LevelEditManager>();
+        if (GameObject.FindGameObjectsWithTag("LevelEditManager").Length != 0)
+        {
+            levelEditManager = GameObject.FindGameObjectWithTag("LevelEditManager").GetComponent<LevelEditManager>();
+        }
     }
 
     private void OnMouseOver()

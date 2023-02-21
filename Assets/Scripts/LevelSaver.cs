@@ -33,6 +33,11 @@ public class LevelSaver : MonoBehaviour
 
         for(int i = 0; i < finalAsset.Length; i++)
         {
+            if(finalAsset[i].name.Contains("Clone") && finalAsset[i].name.Contains("Chest"))
+            {
+                finalAsset[i].name = "EndLevelChest";
+            }
+
             assetNames[i] = finalAsset[i].name;
             assetPosistions[i] = finalAsset[i].transform.position;
         }
@@ -58,10 +63,10 @@ public class LevelSaver : MonoBehaviour
 
     public void LoadLevel()
     {
-        foreach(var savableObject in GameObject.FindGameObjectsWithTag("Savable"))
-        {
-            Destroy(savableObject);
-        }
+        //foreach(var savableObject in GameObject.FindGameObjectsWithTag("Savable"))
+        //{
+        //    Destroy(savableObject);
+        //}
         var count = 0;
         using (var reader = new StreamReader(levelPath))
         {
@@ -103,7 +108,7 @@ public class LevelSaver : MonoBehaviour
             for (int j = 0; j < possibleAssets.Length; j++)
             {
                 if (possibleAssets[j].name == assetNames[i])
-                 {
+                {
                     Instantiate(possibleAssets[j], assetPosistions[i], Quaternion.identity);
                 }
             }

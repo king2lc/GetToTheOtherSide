@@ -1802,7 +1802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8710647651785818707, guid: e299bc537a8a2ee4ba432fe952055148, type: 3}
       propertyPath: assetNames.Array.data[1]
-      value: Chest
+      value: EndLevelChest(Clone)
       objectReference: {fileID: 0}
     - target: {fileID: 8710647651785818707, guid: e299bc537a8a2ee4ba432fe952055148, type: 3}
       propertyPath: possibleAssets.Array.data[1]

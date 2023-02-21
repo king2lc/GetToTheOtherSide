@@ -84,7 +84,7 @@ public class LevelManager : MonoBehaviour
 
     public void DownloadData()
     {
-        LootLockerSDKManager.GetAssetListWithCount(10, (response) =>
+        LootLockerSDKManager.GetAssetListWithCount(20, (response) =>
         {
             for(int i = 0; i < response.assets.Length; i++)
             {

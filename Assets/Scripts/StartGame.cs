@@ -43,17 +43,11 @@ public class StartGame : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
         GameStateToggle();
-        //levelName = SceneManager.GetActiveScene().ToString();
-        //SceneManager.LoadScene(levelName);
     }
 
     public void LoadMainMenu()
     {
-        //var allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-        //foreach (var go in allObjects)
-        //{
-        //    Destroy(go);
-        //}
+        GameStateToggle();
         SceneManager.LoadScene("TitleScreen");
     }   
 

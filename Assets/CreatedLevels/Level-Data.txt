@@ -1,3 +1,2 @@
 Grass,-7.098468,-3.871833,0
-EndLevelChest(Clone),-9.906593,1.274323,0
-Grass(Clone),-5.483517,-1.335568,0
+EndLevelChest(Clone),-13.08333,0.8192272,0

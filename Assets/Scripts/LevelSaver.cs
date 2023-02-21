@@ -7,14 +7,18 @@ using System.Linq;
 public class LevelSaver : MonoBehaviour
 {
     public string savableTag = "Savable";
+    public string chestTag = "EndGameChest";
+    public List<string> tags = new List<string>() { "Savable", "EndGameChest"};
     private GameObject[] assets;
+    private GameObject[] chestAsset;
+    private GameObject[] finalAsset;
     public GameObject[] possibleAssets;
     [SerializeField] private string[] assetNames;
     [SerializeField] private Vector3[] assetPosistions;
     private string levelPath = Directory.GetCurrentDirectory() + "/Assets/CreatedLevels/Level-Data.txt";
     public void FindAssets()
     {
-        if(assets != null)
+        if(finalAsset != null)
         {
             foreach(var asset in assets)
             {
@@ -22,14 +26,15 @@ public class LevelSaver : MonoBehaviour
             }
         }
         assets = GameObject.FindGameObjectsWithTag(savableTag);
+        chestAsset = GameObject.FindGameObjectsWithTag(chestTag);
+        finalAsset = assets.Concat(chestAsset).ToArray();
+        assetNames = new string[finalAsset.Length];
+        assetPosistions = new Vector3[finalAsset.Length];
 
-        assetNames = new string[assets.Length];
-        assetPosistions = new Vector3[assets.Length];
-
-        for(int i = 0; i < assets.Length; i++)
+        for(int i = 0; i < finalAsset.Length; i++)
         {
-            assetNames[i] = assets[i].name;
-            assetPosistions[i] = assets[i].transform.position;
+            assetNames[i] = finalAsset[i].name;
+            assetPosistions[i] = finalAsset[i].transform.position;
         }
         SaveToTextFile();
     }
@@ -42,7 +47,7 @@ public class LevelSaver : MonoBehaviour
         {
             System.IO.Directory.CreateDirectory(fileInfo.DirectoryName);
         }
-        for (int i = 0; i < assets.Length; i++)
+        for (int i = 0; i < finalAsset.Length; i++)
         {
             string info = assetNames[i] + ',' + assetPosistions[i].x.ToString() + ',' + 
                 assetPosistions[i].y.ToString() + ',' + assetPosistions[i].z.ToString();
@@ -97,10 +102,10 @@ public class LevelSaver : MonoBehaviour
         {
             for (int j = 0; j < possibleAssets.Length; j++)
             {
-                //if (possibleAssets[j].name == assetNames[i])
-                //{
+                if (possibleAssets[j].name == assetNames[i])
+                 {
                     Instantiate(possibleAssets[j], assetPosistions[i], Quaternion.identity);
-                //}
+                }
             }
         }
     }

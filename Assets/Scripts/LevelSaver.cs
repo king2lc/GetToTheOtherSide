@@ -37,6 +37,10 @@ public class LevelSaver : MonoBehaviour
             {
                 finalAsset[i].name = "EndLevelChest";
             }
+            else if(finalAsset[i].name.Contains("Clone") && finalAsset[i].name.Contains("Grass"))
+            {
+                    finalAsset[i].name = "Grass";
+            }
 
             assetNames[i] = finalAsset[i].name;
             assetPosistions[i] = finalAsset[i].transform.position;

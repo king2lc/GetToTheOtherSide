@@ -171,7 +171,17 @@ namespace TarodevController {
                 {
                     if (raycastHit.collider.tag == "EndGameChest")
                     {
-                        SceneManager.LoadScene("EndLevel");
+                        if(SceneManager.GetActiveScene().name.Equals("StartLevel"))
+                            SceneManager.LoadScene("Level2");
+                        else if(SceneManager.GetActiveScene().name.Equals("Level2"))
+                            SceneManager.LoadScene("Level3");
+                        else if(SceneManager.GetActiveScene().name.Equals("Level3"))
+                            SceneManager.LoadScene("Level4");
+                        else if(SceneManager.GetActiveScene().name.Equals("Level4"))
+                            SceneManager.LoadScene("Level5");
+                        else
+                            SceneManager.LoadScene("EndLevel");
+
                     }
                 }
             }

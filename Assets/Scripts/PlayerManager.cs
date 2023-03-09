@@ -9,6 +9,10 @@ public class PlayerManager : MonoBehaviour
     {
         
     }
+    public GameObject[] playerPrefabs;
+    public void Awake(){
+        PlayerPrefs.GetInt("SelectedCharacter",0)
+    }
 
     // Update is called once per frame
     void Update()

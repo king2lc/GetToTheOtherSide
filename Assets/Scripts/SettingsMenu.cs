@@ -13,20 +13,16 @@ public class SettingsMenu : MonoBehaviour
     public Slider mastSlider,musicSlider, sfxSlider;
 
 void start(){
-    float vol = 1f;
-    theMixer.GetFloat("MasterVol",out vol);
-    mastSlider.value = vol;
-    theMixer.GetFloat("MusicVol",out vol);
-    musicSlider.value = vol;
-    theMixer.GetFloat("SFXVol", out vol);
-    sfxSlider.value = vol;
-    
-    mastLabel.text = Mathf.RoundToInt(mastSlider.value+80).ToString();
-    musicLabel.text = Mathf.RoundToInt(musicSlider.value+80).ToString();
-    sfxLabel.text = Mathf.RoundToInt(sfxSlider.value+80).ToString();
+
+    //float vol = 0f;
+    //theMixer.GetFloat("MasterVol",out vol);
+    //mastSlider.value = vol;
+    //mastLabel.text = Mathf.RoundToInt(mastSlider.value+80).ToString();
+
     
     }
     void update(){
+        
 
     }
     public void SetMasterVol(){

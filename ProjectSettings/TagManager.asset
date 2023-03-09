@@ -13,6 +13,7 @@ TagManager:
   - DownloadMenu
   - Danger
   - EndGameChest
+  - GameMusic
   layers:
   - Default
   - TransparentFX

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class Characters : MonoBehaviour
 {
     public GameObject[] skins;
+    
     public int selectedCharacter;
     private void Awake(){
         selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter",0);
@@ -22,11 +25,13 @@ public class Characters : MonoBehaviour
     }
     public void ChangePrevious(){
         skins[selectedCharacter].SetActive(false);
-        selectedCharacter++;
-        if(selectedCharacter == skins.Length)
-            selectedCharacter = 0;
+        selectedCharacter--;
+        if(selectedCharacter == -1)
+            selectedCharacter = skins.Length -1;
         skins[selectedCharacter].SetActive(true);
         PlayerPrefs.SetInt("SelectedCharacter",selectedCharacter);
     }
+ 
+    
    
 }

@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+
 
 public class PlayerManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static Vector2 lastCheckPointPos = new Vector2(849,301);
+    public CinemachineVirtualCamera VCam;
     public GameObject[] playerPrefabs;
-    public void Awake(){
-        PlayerPrefs.GetInt("SelectedCharacter",0)
-    }
+    int characterIndex;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Awake(){
+        characterIndex = PlayerPrefs.GetInt("SelectedCharacter",0);
+       GameObject player = Instantiate(playerPrefabs[characterIndex], lastCheckPointPos, Quaternion.identity);
+        VCam.m_Follow = player.transform;
     }
+   
 }

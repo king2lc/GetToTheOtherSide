@@ -13,6 +13,7 @@ TagManager:
   - DownloadMenu
   - Danger
   - EndGameChest
+  - Reset
   layers:
   - Default
   - TransparentFX

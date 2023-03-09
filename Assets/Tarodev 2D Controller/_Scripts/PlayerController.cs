@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -152,12 +153,16 @@ namespace TarodevController {
             if (_colLeft)
             {
                 RunEndGameHitDetection(Vector2.left);
+                ResetCharacterPosistion(Vector2.left);
+
             } else if (_colRight)
             {
                 RunEndGameHitDetection(Vector2.right);
+                ResetCharacterPosistion(Vector2.right);
             } else if (_colDown)
             {
                 RunEndGameHitDetection(Vector2.down);
+                ResetCharacterPosistion(Vector2.down);
             }
 
             bool RunDetection(RayRange range) {
@@ -182,6 +187,18 @@ namespace TarodevController {
                         else
                             SceneManager.LoadScene("EndLevel");
 
+                    }
+                }
+            }
+            void ResetCharacterPosistion(Vector2 vector)
+            {
+                RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, vector, 1f);
+                if (raycastHit.collider != null)
+                {
+                    if (raycastHit.collider.tag == "Reset")
+                    {
+                        Debug.Log("HIT");
+                        transform.position = new Vector2(-9, 0);
                     }
                 }
             }

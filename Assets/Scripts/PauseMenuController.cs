@@ -19,11 +19,11 @@ public class PauseMenuController : MonoBehaviour
         Debug.Log("start");
     }
 
-    void OnDestroy()
+   /* void OnDestroy()
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
-
+*/
     private void OnGameStateChanged(GameState newGameState)
     {
         gameObject.SetActive(newGameState == GameState.Paused);

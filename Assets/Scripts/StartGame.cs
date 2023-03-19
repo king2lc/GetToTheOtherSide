@@ -52,8 +52,14 @@ public class StartGame : MonoBehaviour
     }   
 
 
-    public void LoadLevel()
+   public void LoadLevel()
     {
+        GameState currentGameState = GameStateManager.Instance.CurrentGameState;
+        if (currentGameState != GameState.Gameplay)
+        {
+
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+        }
         SceneManager.LoadScene(levelName);
     }
 

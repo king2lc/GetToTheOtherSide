@@ -18,7 +18,7 @@ public class SettingsMenu : MonoBehaviour
         mastSlider.value = vol;
         theMixer.GetFloat("MusicVol", out vol);
         musicSlider.value = vol;
-        theMixer.GetFloat("sfxVol", out vol);
+        theMixer.GetFloat("SFXVol", out vol);
         sfxSlider.value = vol;
         
         mastLabel.text = Mathf.RoundToInt(mastSlider.value+80).ToString();

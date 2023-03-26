@@ -197,7 +197,6 @@ namespace TarodevController {
                 {
                     if (raycastHit.collider.tag == "Reset")
                     {
-                        Debug.Log("HIT");
                         transform.position = new Vector2(-9, 0);
                     }
                 }

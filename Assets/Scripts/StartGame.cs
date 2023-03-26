@@ -54,11 +54,12 @@ public class StartGame : MonoBehaviour
 
     public void LoadLevel()
     {
-        //TODO check if current state is paused if so unpause.
-        //if (GameState.Paused)
-        //{
-        //    GameStateToggle();
-        //}
+        GameState currentGameState = GameStateManager.Instance.CurrentGameState;
+        if (currentGameState != GameState.Gameplay)
+        {
+
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+        }
         SceneManager.LoadScene(levelName);
     }
 

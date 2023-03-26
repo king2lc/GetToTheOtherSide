@@ -43,4 +43,9 @@ public class PauseMenuController : MonoBehaviour
             g.SetActive(false);
         }
     }
+    public void ToggleColor()
+    {
+        var test = GameObject.FindGameObjectWithTag("Color");
+        test.active = !test.active;
+    }
 }

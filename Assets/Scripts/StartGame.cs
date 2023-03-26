@@ -8,13 +8,13 @@ public class StartGame : MonoBehaviour
 {
     GameObject[] pauseObjects;
     public string levelName;
-
     void Start()
     {
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         OnGameStateChanged(GameStateManager.Instance.CurrentGameState);
+        
     }
 
     void OnDestroy()
@@ -54,11 +54,12 @@ public class StartGame : MonoBehaviour
 
     public void LoadLevel()
     {
-        //TODO check if current state is paused if so unpause.
-        //if (GameState.Paused)
-        //{
-        //    GameStateToggle();
-        //}
+        GameState currentGameState = GameStateManager.Instance.CurrentGameState;
+        if (currentGameState != GameState.Gameplay)
+        {
+
+            GameStateManager.Instance.SetState(GameState.Gameplay);
+        }
         SceneManager.LoadScene(levelName);
     }
 

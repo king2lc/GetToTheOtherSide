@@ -24,6 +24,9 @@ namespace TarodevController {
         private Vector3 _lastPosition;
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
 
+        public SpriteRenderer spriteRenderer;
+
+        public Color selectedColor;
         //public GameObject player;
         // This is horrible, but for some reason colliders are not fully established when update starts...
         private bool _active;
@@ -31,20 +34,23 @@ namespace TarodevController {
             Invoke(nameof(Activate), 0.5f);
             GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         }
-        void Activate() =>  _active = true;
+        void Activate() => _active = true;
 
         private void OnGameStateChanged(GameState newGameState)
         {
             enabled = newGameState == GameState.Gameplay;
         }
-
+        private void Start()
+        {
+            Debug.Log("Player initialized");
+        }
         void OnDestroy()
         {
             GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
         }
 
         private void Update() {
-            if(!_active) return;
+            if (!_active) return;
             // Calculate velocity
             Velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
@@ -59,8 +65,17 @@ namespace TarodevController {
 
             MoveCharacter(); // Actually perform the axis movement
             ResetLevelFalling(); //Checks if the player falls and resets accordingly.
+            ColorChange();
         }
-
+        public void ColorChange()
+        {
+            var colorPicker = GameObject.FindGameObjectWithTag("Color");
+            if (colorPicker != null && spriteRenderer != null)
+            {
+                var color = colorPicker.GetComponent<FlexibleColorPicker>();
+                spriteRenderer.material.color = color.GetColor();
+            }
+        }
         void OnTriggerEnter(Collider other)
         {
             
@@ -68,7 +83,7 @@ namespace TarodevController {
         private void ResetLevelFalling()
         {
             //PUT MUSIC WHEN DIE OR SOMETHING IDK.
-            //if (player.transform.position.y <= 275)
+            //if (gameObject.transform.position.y <= 275)
             //{
             //    var scene = SceneManager.GetActiveScene();
             //    SceneManager.LoadScene(scene.name);
@@ -197,7 +212,6 @@ namespace TarodevController {
                 {
                     if (raycastHit.collider.tag == "Reset")
                     {
-                        Debug.Log("HIT");
                         transform.position = new Vector2(-9, 0);
                     }
                 }

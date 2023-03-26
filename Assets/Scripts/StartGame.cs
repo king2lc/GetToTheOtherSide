@@ -8,13 +8,13 @@ public class StartGame : MonoBehaviour
 {
     GameObject[] pauseObjects;
     public string levelName;
-
     void Start()
     {
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
         hidePaused();
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
         OnGameStateChanged(GameStateManager.Instance.CurrentGameState);
+        
     }
 
     void OnDestroy()

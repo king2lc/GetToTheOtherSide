@@ -12,7 +12,14 @@ public class PauseController : MonoBehaviour
             gameStateToggle();
         }
     }
-
+    public void ToggleColor()
+    {
+        var test = GameObject.FindGameObjectWithTag("Color");
+        if(test != null)
+        {
+            test.active = !test.active;
+        }
+    }
     public void gameStateToggle()
     {
         GameState currentGameState = GameStateManager.Instance.CurrentGameState;

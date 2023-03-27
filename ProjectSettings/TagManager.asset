@@ -15,6 +15,7 @@ TagManager:
   - EndGameChest
   - Reset
   - Color
+  - GameMusic
   layers:
   - Default
   - TransparentFX

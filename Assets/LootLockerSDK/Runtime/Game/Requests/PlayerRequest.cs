@@ -13,6 +13,19 @@ namespace LootLocker.Requests
     }
 
     [System.Serializable]
+    public class LootLockerOtherPlayerInfoRequest : LootLockerGetRequest
+    {
+        public LootLockerOtherPlayerInfoRequest(string playerID, string platform = "")
+        {
+            getRequests.Add(playerID);
+            if (platform != "")
+            {
+                getRequests.Add(platform);
+            }
+        }
+    }
+
+    [System.Serializable]
     public class LootLockerStandardResponse : LootLockerResponse
     {
     }
@@ -186,6 +199,7 @@ namespace LootLocker.Requests
     public class LootLockerPlayerFile : LootLockerResponse
     {
         public int id { get; set; }
+        public string revision_id { get; set; }
         public string name { get; set; }
         public int size { get; set; }
         public string purpose { get; set; }
@@ -229,7 +243,7 @@ namespace LootLocker.Requests
         {
             getRequests.Clear();
             getRequests.Add(LootLockerConfig.current.deviceID);
-            getRequests.Add(LootLockerConfig.current.platform.ToString());
+            getRequests.Add(CurrentPlatform.GetString());
         }
     }
 
@@ -255,32 +269,42 @@ namespace LootLocker
         {
             var endPoint = LootLockerEndPoints.getPlayerInfo;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
+        public static void GetOtherPlayerInfo(LootLockerOtherPlayerInfoRequest data, Action<LootLockerXpResponse> onComplete)
+        {
+            var endPoint = LootLockerEndPoints.getXpAndLevel;
+            var getVariable = string.Format(endPoint.endPoint, data.getRequests[0], data.getRequests[1]);
 
+            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
+        }
         public static void GetInventory(Action<LootLockerInventoryResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.getInventory;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetBalance(Action<LootLockerBalanceResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.getCurrencyBalance;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void SubmitXp(LootLockerXpSubmitRequest data, Action<LootLockerXpSubmitResponse> onComplete)
         {
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<LootLockerXpSubmitResponse>());
+            	return;
+            }
+
+            string json = JsonConvert.SerializeObject(data);
 
             var endPoint = LootLockerEndPoints.submitXp;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetXpAndLevel(LootLockerGetRequest data, Action<LootLockerXpResponse> onComplete)
@@ -289,56 +313,56 @@ namespace LootLocker
 
             var getVariable = string.Format(endPoint.endPoint, data.getRequests[0], data.getRequests[1]);
 
-            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetPlayerAssetNotification(Action<LootLockerPlayerAssetNotificationsResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.playerAssetNotifications;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetDeactivatedAssetNotification(Action<LootLockerDeactivatedAssetsResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.playerAssetDeactivationNotification;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void InitiateDLCMigration(Action<LootLockerDlcResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.initiateDlcMigration;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetDLCMigrated(Action<LootLockerDlcResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.getDlcMigration;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void SetProfilePrivate(Action<LootLockerStandardResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.setProfilePrivate;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void SetProfilePublic(Action<LootLockerStandardResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.setProfilePublic;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetPlayerName(Action<PlayerNameResponse> onComplete)
         {
             var endPoint = LootLockerEndPoints.getPlayerName;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void LookupPlayerNames(LookupPlayerNamesRequest lookupPlayerNamesRequest, Action<PlayerNameLookupResponse> onComplete)
@@ -372,7 +396,7 @@ namespace LootLocker
                 getVariable += $"xbox_id={xboxID}&";
             }
 
-            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
         
         public static void LookupPlayer1stPartyPlatformIDs(LookupPlayer1stPartyPlatformIDsRequest lookupPlayer1stPartyPlatformIDsRequest, Action<Player1stPartyPlatformIDsLookupResponse> onComplete)
@@ -391,18 +415,22 @@ namespace LootLocker
                 getVariable += $"player_public_uid={playerPublicUID}&";
             }
 
-            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(getVariable, endPoint.httpMethod, null, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void SetPlayerName(PlayerNameRequest data, Action<PlayerNameResponse> onComplete)
         {
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<PlayerNameResponse>());
+            	return;
+            }
+
+            string json = JsonConvert.SerializeObject(data);
 
             var endPoint = LootLockerEndPoints.setPlayerName;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
     }
 }

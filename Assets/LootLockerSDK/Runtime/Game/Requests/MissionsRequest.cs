@@ -101,7 +101,7 @@ namespace LootLocker
         {
             EndPointClass endPoint = LootLockerEndPoints.gettingAllMissions;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         [Obsolete("This function is deprecated and will be removed soon. Please use the function GetAllMissions() instead")]
@@ -109,7 +109,7 @@ namespace LootLocker
         {
             EndPointClass endPoint = LootLockerEndPoints.gettingAllMissions;
 
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         public static void GetMission(LootLockerGetRequest data, Action<LootLockerGetMissionResponse> onComplete)
@@ -118,7 +118,7 @@ namespace LootLocker
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         [Obsolete("This function is deprecated and will be removed soon. Please use the function GetMission() instead")]
@@ -128,7 +128,7 @@ namespace LootLocker
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         public static void StartMission(LootLockerGetRequest data, Action<LootLockerStartMissionResponse> onComplete)
@@ -137,7 +137,7 @@ namespace LootLocker
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         [Obsolete("This function is deprecated and will be removed soon. Please use the function StartMission() instead")]
@@ -147,33 +147,41 @@ namespace LootLocker
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
 
         public static void FinishMission(LootLockerFinishMissionRequest data, Action<LootLockerFinishMissionResponse> onComplete)
         {
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<LootLockerFinishMissionResponse>());
+            	return;
+            }
+
+            string json = JsonConvert.SerializeObject(data);
 
             EndPointClass requestEndPoint = LootLockerEndPoints.finishingMission;
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
         [Obsolete("This function is deprecated and will be removed soon. Please use the function FinishMission() instead")]
         public static void FinishingAMission(LootLockerFinishingAMissionRequest data, Action<LootLockerFinishingAMissionResponse> onComplete)
         {
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<LootLockerFinishingAMissionResponse>());
+            	return;
+            }
+
+            string json = JsonConvert.SerializeObject(data);
 
             EndPointClass requestEndPoint = LootLockerEndPoints.finishingMission;
 
             string endPoint = string.Format(requestEndPoint.endPoint, data.getRequests[0]);
 
-            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); }, useAuthToken: false);
+            LootLockerServerRequest.CallAPI(endPoint, requestEndPoint.httpMethod, json, onComplete: (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); }, useAuthToken: false);
         }
     }
 }

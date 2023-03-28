@@ -78,14 +78,14 @@ namespace LootLocker.Requests
     public class ReportsCreatePlayerRequest
     {
         public int[] report_types { get; set; }
-        public string text { get; set; }
+        public string message { get; set; }
         public int player_id { get; set; }
     }
 
     public class ReportsCreateAssetRequest
     {
         public int[] report_types { get; set; }
-        public string text { get; set; }
+        public string message { get; set; }
         public int asset_id { get; set; }
     }
 }
@@ -97,7 +97,7 @@ namespace LootLocker
         public static void GetReportTypes(Action<LootLockerReportsGetTypesResponse> onComplete)
         {
             EndPointClass endPoint = LootLockerEndPoints.reportsGetTypes;
-            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(endPoint.endPoint, endPoint.httpMethod, null, (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void GetRemovedUGCForPlayer(GetRemovedUGCForPlayerInput input, Action<LootLockerReportsGetRemovedAssetsResponse> onComplete)
@@ -141,27 +141,35 @@ namespace LootLocker
                 tempEndpoint = string.Format(tempEndpoint, input.Since);
             }
 
-            LootLockerServerRequest.CallAPI(tempEndpoint, endPoint.httpMethod, null, (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            LootLockerServerRequest.CallAPI(tempEndpoint, endPoint.httpMethod, null, (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void CreatePlayerReport(ReportsCreatePlayerRequest data, Action<LootLockerReportsCreatePlayerResponse> onComplete)
         {
             EndPointClass requestEndPoint = LootLockerEndPoints.reportsCreatePlayer;
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<LootLockerReportsCreatePlayerResponse>());
+            	return;
+            }
 
-            LootLockerServerRequest.CallAPI(requestEndPoint.endPoint, requestEndPoint.httpMethod, json, (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            string json = JsonConvert.SerializeObject(data);
+
+            LootLockerServerRequest.CallAPI(requestEndPoint.endPoint, requestEndPoint.httpMethod, json, (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
 
         public static void CreateAssetReport(ReportsCreateAssetRequest data, Action<LootLockerReportsCreateAssetResponse> onComplete)
         {
             EndPointClass requestEndPoint = LootLockerEndPoints.reportsCreateAsset;
-            string json = "";
-            if (data == null) return;
-            else json = JsonConvert.SerializeObject(data);
+            if(data == null)
+            {
+            	onComplete?.Invoke(LootLockerResponseFactory.InputUnserializableError<LootLockerReportsCreateAssetResponse>());
+            	return;
+            }
 
-            LootLockerServerRequest.CallAPI(requestEndPoint.endPoint, requestEndPoint.httpMethod, json, (serverResponse) => { LootLockerResponse.Serialize(onComplete, serverResponse); });
+            string json = JsonConvert.SerializeObject(data);
+
+            LootLockerServerRequest.CallAPI(requestEndPoint.endPoint, requestEndPoint.httpMethod, json, (serverResponse) => { LootLockerResponse.Deserialize(onComplete, serverResponse); });
         }
     }
 }

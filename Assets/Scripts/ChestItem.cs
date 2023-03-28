@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChestItem : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class ChestItem : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && SceneManager.GetActiveScene().name == "LevelCreator")
         {
             Destroy(this.gameObject);
             levelEditManager.ItemButtons[ItemID].currentQuantity++;

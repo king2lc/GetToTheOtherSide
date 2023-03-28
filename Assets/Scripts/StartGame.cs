@@ -8,6 +8,8 @@ public class StartGame : MonoBehaviour
 {
     GameObject[] pauseObjects;
     public string levelName;
+    public static string previousLevel { get; set; }
+
     void Start()
     {
         pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
@@ -20,6 +22,7 @@ public class StartGame : MonoBehaviour
     void OnDestroy()
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+        previousLevel = gameObject.scene.name;
     }
     private void OnGameStateChanged(GameState newGameState)
     {

@@ -13,7 +13,7 @@ public class EndLevelScript : MonoBehaviour
 
     public void LoadPreviousLevel()
     {
-        Debug.Log("Load Previous Level is currently under construction!");
+        SceneManager.LoadScene(StartGame.previousLevel);
     }
 }
  

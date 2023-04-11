@@ -82,12 +82,11 @@ namespace TarodevController {
         }
         private void ResetLevelFalling()
         {
-            //PUT MUSIC WHEN DIE OR SOMETHING IDK.
-            //if (gameObject.transform.position.y <= 275)
-            //{
-            //    var scene = SceneManager.GetActiveScene();
-            //    SceneManager.LoadScene(scene.name);
-            //}
+            if (gameObject.transform.position.y <= 275 && (SceneManager.GetActiveScene().name != "LevelCreator" && SceneManager.GetActiveScene().name != "LevelSelect"))
+            {
+                var scene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(scene.name);
+            }
         }
 
         private void ResetLevelGrassCollision()
